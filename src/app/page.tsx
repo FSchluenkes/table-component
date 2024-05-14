@@ -1,95 +1,79 @@
-import Image from "next/image";
-import styles from "./page.module.css";
+'use client';
+import Table from '@/app/components/table/table';
+import { ColumnDef } from '@tanstack/react-table';
+import { useEffect, useMemo, useState } from 'react';
+import mData from './MOCK_DATA.json';
 
-export default function Home() {
-  return (
-    <main className={styles.main}>
-      <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>src/app/page.tsx</code>
-        </p>
-        <div>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{" "}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
-        </div>
-      </div>
-
-      <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
-
-      <div className={styles.grid}>
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Docs <span>-&gt;</span>
-          </h2>
-          <p>Find in-depth information about Next.js features and API.</p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Learn <span>-&gt;</span>
-          </h2>
-          <p>Learn about Next.js in an interactive course with&nbsp;quizzes!</p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Templates <span>-&gt;</span>
-          </h2>
-          <p>Explore starter templates for Next.js.</p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Deploy <span>-&gt;</span>
-          </h2>
-          <p>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
+const TableTest = () => {
+  const data = useMemo(() => mData, []);
+  const columns = useMemo<ColumnDef<any>[]>(
+    () => [
+      {
+        header: 'ID',
+        accessorKey: 'id',
+        id: 'id',
+        cell: (info) => info.getValue(),
+        size: 50,
+      },
+      {
+        header: 'First Name',
+        accessorKey: 'first_name',
+        id: 'first_name',
+        cell: (info) => info.getValue(),
+        size: 150,
+      },
+      {
+        header: 'Last Name',
+        accessorKey: 'last_name',
+        id: 'last_name',
+        cell: (info) => info.getValue(),
+        size: 150,
+      },
+      {
+        header: 'E-Mail',
+        accessorKey: 'email',
+        id: 'email',
+        cell: (info) => info.getValue(),
+        size: 300,
+      },
+      {
+        header: 'Gender',
+        accessorKey: 'gender',
+        id: 'gender',
+        cell: (info) => info.getValue(),
+        size: 150,
+      },
+      {
+        header: 'IP Address',
+        accessorKey: 'ip_address',
+        id: 'ip_address',
+        cell: (info) => info.getValue(),
+        size: 150,
+      },
+    ],
+    []
   );
-}
+  const [columnOrder, setColumnOrder] = useState<string[]>(() =>
+    columns.map((c) => c.id!)
+  );
+
+  return (
+    <div
+      style={{
+        display: 'flex',
+        width: '100%',
+        backgroundColor: 'lightgrey',
+        padding: '10px',
+      }}
+    >
+      <Table
+        data={data}
+        columns={columns}
+        columnOrder={columnOrder}
+        setColumnOrder={setColumnOrder}
+      />
+    </div>
+  );
+};
+
+export default TableTest;
