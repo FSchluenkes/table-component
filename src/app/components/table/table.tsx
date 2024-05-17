@@ -115,6 +115,23 @@ const Table: React.FC<TableProps> = ({
       </SortableHeaderOverlay>
       <div style={{ backgroundColor: 'white' }}>
         <table>
+          <tbody>
+            {table.getRowModel().rows.map((row) => (
+              <tr key={row.id}>
+                {row.getVisibleCells().map((cell) => (
+                  <SortableContext
+                    id={cell.id}
+                    key={cell.id}
+                    items={columnOrder}
+                    strategy={horizontalListSortingStrategy}
+                  >
+                    <DragAlongCell key={cell.id} cell={cell} />
+                  </SortableContext>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+
           <thead>
             {table.getHeaderGroups().map((headerGroup) => (
               <tr key={headerGroup.id}>
@@ -135,23 +152,6 @@ const Table: React.FC<TableProps> = ({
               </tr>
             ))}
           </thead>
-
-          <tbody>
-            {table.getRowModel().rows.map((row) => (
-              <tr key={row.id}>
-                {row.getVisibleCells().map((cell) => (
-                  <SortableContext
-                    id={cell.id}
-                    key={cell.id}
-                    items={columnOrder}
-                    strategy={horizontalListSortingStrategy}
-                  >
-                    <DragAlongCell key={cell.id} cell={cell} />
-                  </SortableContext>
-                ))}
-              </tr>
-            ))}
-          </tbody>
         </table>
       </div>
     </DndContext>
